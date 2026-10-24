@@ -1,0 +1,21 @@
+{
+  "_about": "Conta de TESTE do ambiente local (localhost:5180). Nunca usar em produção.",
+  "owner": {
+    "name": "Ana Prado",
+    "clinicName": "Clínica Sorriso Centro",
+    "email": "ana.dev@clinica.test",
+    "password": "dev-senha-2026"
+  },
+  "secretary": {
+    "name": "Bia Recepção",
+    "email": "bia.recepcao@clinica.test",
+    "password": "dev-recepcao-2026",
+    "via": "convite em Ajustes › Equipe"
+  },
+  "dentist2": {
+    "name": "Dr. Rafael Costa",
+    "email": "rafael.dev@clinica.test",
+    "password": "dev-dentista-2026",
+    "via": "convite criado pelo scripts/seed-demo.mjs"
+  }
+}

@@ -1,0 +1,20 @@
+# Dev local. Portas fora das usadas por outros projetos (5440 / 8090 / 5180).
+services:
+  db:
+    image: postgres:16
+    container_name: clinica-db
+    environment:
+      POSTGRES_DB: clinica
+      POSTGRES_USER: clinic_owner        # dono do schema: só migrations
+      POSTGRES_PASSWORD: owner_dev_pw
+      APP_DB_PASSWORD: app_dev_pw        # usado pelo init para criar a role da aplicação
+    ports: ["5440:5432"]
+    volumes:
+      - clinica-pg:/var/lib/postgresql/data
+      - ./db/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U clinic_owner -d clinica"]
+      interval: 3s
+      retries: 20
+volumes:
+  clinica-pg:

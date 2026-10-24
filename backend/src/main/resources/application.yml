@@ -1,0 +1,44 @@
+server:
+  port: ${PORT:8090}
+  error:
+    include-message: never
+
+spring:
+  application:
+    name: arcadent-backend
+  # A aplicação conecta com a role clinic_app (sem BYPASSRLS).
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5440/clinica}
+    username: ${DB_APP_USER:clinic_app}
+    password: ${DB_APP_PASSWORD:app_dev_pw}
+    hikari:
+      maximum-pool-size: 10
+  # Migrations com o dono do schema.
+  flyway:
+    url: ${DB_URL:jdbc:postgresql://localhost:5440/clinica}
+    user: ${DB_OWNER_USER:clinic_owner}
+    password: ${DB_OWNER_PASSWORD:owner_dev_pw}
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 52MB
+  jackson:
+    default-property-inclusion: non_null
+    time-zone: UTC
+    serialization:
+      write-dates-as-timestamps: false
+
+app:
+  # Em produção: JWT_SECRET obrigatório (>= 32 bytes, base64). O valor abaixo só serve para dev.
+  jwt-secret: ${JWT_SECRET:ZGV2LXNvbWVudGUtbG9jYWwtbmFvLXVzYXItZW0tcHJvZHVjYW8tMzJieXRlcw==}
+  # Token de acesso curto; a sessão continua pelo token de renovação (30 dias, trocado a cada uso).
+  jwt-ttl-minutes: ${JWT_TTL_MINUTES:30}
+  cors-origin: ${CORS_ORIGIN:http://localhost:5180}
+  # Arquivos de paciente. Dev: disco local. Produção: trocar por armazenamento S3/R2 privado.
+  files-dir: ${FILES_DIR:./data/files}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
